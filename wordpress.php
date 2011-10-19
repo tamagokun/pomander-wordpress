@@ -100,7 +100,7 @@ group('uploads', function() {
 desc("Create and deploy wp-config.php for environment");
 task('wp_config','app', function($app) {
   info("config","creating wp-config.php");
-  file_put_contents("./tmp-wp-config",include("/Template/wp-config.php"));
+  file_put_contents("./tmp-wp-config",include("lib/Template/wp-config.php"));
   put("./tmp-wp-config","{$app->env->deploy_to}/wp-config.php");
   unlink("./tmp-wp-config");
 });
@@ -108,13 +108,13 @@ task('wp_config','app', function($app) {
 desc("Create and deploy .htaccess for environments");
 task('htaccess','app', function($app) {
   info("htaccess","creating .htaccess");
-  file_put_contents("./tmp-htaccess",include("/Template/htaccess.php"));
+  file_put_contents("./tmp-htaccess",include("lib/Template/htaccess.php"));
   put("./tmp-htaccess","{$app->env->deploy_to}/wordpress/.htaccess");
   unlink("./tmp-htaccess");
 });
 
 desc("Wordpress task stack for local machine (1 and done)");
-task('wpify','environment','deploy:wordpress','toolkit','db:create','wp_config', function($app) {
+task('wpify','environment','deploy:wordpress','toolkit','db:create','wp_config','htaccess', function($app) {
   info("wpify","success");
 });
 
@@ -128,7 +128,7 @@ group("setup", function() {
     info("create","wordpress/");
     @mkdir("./wordpress");
     info("create",".gitignore");
-    @file_put_contents("./.gitignore",include("/Template/gitignore.php"));
+    @file_put_contents("./.gitignore",include("lib/Template/gitignore.php"));
     info("success","project structure created");
   });
 });
