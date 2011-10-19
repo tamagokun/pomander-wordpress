@@ -47,6 +47,9 @@ expecting a certain Wordpress structure that I feel is much better than
 the usualy Wordpress folder structure. Here we go:
 
 `deploy/` - This is where your Pomander configs go (nothing weird about that)
+
 `public/` - This is essentially your wp-content folder. Themes, plugins, and uploads all go here
+
 `wordpress/` - Your Wordpress installation goes here. You should never really have to go into this folder
+
 `wp-config.php` - See that? We keep wp-config outside of your wordpress installation for added security
