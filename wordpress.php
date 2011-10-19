@@ -43,6 +43,8 @@ group('db', function() {
     info("fetch","{$app->env->deploy_to}/dump.sql");
     get("{$app->env->deploy_to}/dump.sql","./tmpdump.sql");
     $app->old_url = $app->env->url;
+    info("clean","dump.sql");
+    run("rm {$app->env->deploy_to}/dump.sql");
   });
 
   desc("Merge a backed up database into environment");
@@ -62,7 +64,7 @@ group('db', function() {
     info("merge","dump.sql");
     put("./tmpdump.sql",$file);
     run($app->env->adapter->merge($file),"rm -rf $file");
-    info("clean","dump.sql");
+    info("clean","tmpdump.sql");
     unlink("./tmpdump.sql");
   });
 
