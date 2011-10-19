@@ -15,13 +15,7 @@ group('deploy',function() {
     run($cmd);
   });
 
-  desc("Deploy MSL Toolkit in environment.");
-  task('toolkit',':toolkit','app', function($app) {
-    info("deploy","injecting toolkit");
-    put("./.toolkit/public/","{$app->env->deploy_to}/public/");
-  });
-
-  task('all','app','deploy:setup','deploy:update','deploy:wordpress','deploy:toolkit','wp_config','htaccess');
+  task('all','app','deploy:setup','deploy:update','deploy:wordpress','wp_config','htaccess');
 
   desc("Complete Wordpress deployment stack (1 and done)");
   task('initial','deploy:all','db:create');
@@ -114,7 +108,7 @@ task('htaccess','app', function($app) {
 });
 
 desc("Wordpress task stack for local machine (1 and done)");
-task('wpify','environment','deploy:wordpress','toolkit','db:create','wp_config','htaccess', function($app) {
+task('wpify','environment','deploy:wordpress','db:create','wp_config','htaccess', function($app) {
   info("wpify","success");
 });
 
@@ -135,17 +129,6 @@ group("setup", function() {
 desc("Setup project structure and create development.yml");
 task("setup","setup:new","config",function() {
   info("success","run 'wpify' after you configure development.yml to get going");
-});
-
-desc("Update MSL toolkit");
-task('toolkit',function($app) {
-  info("git","updating toolkit");
-  if( file_exists("./.toolkit") )
-    shell_exec("cd ./.toolkit && git pull");
-  else
-    shell_exec("git clone cap@git.msltechdev.com:skeleton/toolkit.git ./.toolkit");
-  info("toolkit","injecting to public/");
-  if(!copy_r("./.toolkit/public","./public")) warn("copy","there was a problem injecting the toolkit");
 });
 
 task('config',function() {
