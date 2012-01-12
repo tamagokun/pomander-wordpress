@@ -1,6 +1,7 @@
 <?php
 
-$deps
+/*$deps
   ->dependency('pomander',array('git'=>'https://github.com/tamagokun/pomander-wordpress.git'))
   ;
+*/
 ?>
