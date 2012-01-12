@@ -50,10 +50,10 @@ the usualy Wordpress folder structure. Here we go:
 
 ```
 deploy/             This is where your Pomander configs go (nothing weird about that)
-public/             This is essentially your wp-content folder.
+public/             Welcome to your new wp-content folder.
 --- plugins/
 --- themes/
 --- uploads/
-wordpres/           Your Wordpress installation goes here. You should never really have to go into this folder
+wordpress/           Your Wordpress installation goes here. You should never really have to go into this folder
 wp-config.php       See that? We keep wp-config outside of your wordpress installation for added security
 ```
