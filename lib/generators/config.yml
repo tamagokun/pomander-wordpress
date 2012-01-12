@@ -7,7 +7,7 @@ backup: false
 app:
 db:
 wordpress:
-  version: 3.2.1
+  version: 3.3.1
   db: wp_database
   db_user: root
   db_password:
