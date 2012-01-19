@@ -49,6 +49,7 @@ class PluginSpecification
 		$this->url = $uri;
 		if($this->version == "latest") $this->version = "origin/master";
 		return array(
+			"rm -rf {$this->app->env->deploy_to}/vendor/plugins/{$this->name}",
 			"git clone $uri {$this->app->env->deploy_to}/vendor/plugins/{$this->name}",
 			"git fetch origin && git reset --hard {$this->version}"
 		);
