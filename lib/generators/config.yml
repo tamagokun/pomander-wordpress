@@ -15,3 +15,5 @@ wordpress:
   db_prefix: wp_
   db_charset: utf8
   base_uri: /wordpress
+plugins:
+  
