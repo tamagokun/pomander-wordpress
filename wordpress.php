@@ -9,6 +9,8 @@ group('deploy',function() {
       "svn export http://svn.automattic.com/wordpress/tags/{$app->env->wordpress["version"]} {$app->env->deploy_to}/wordpress --force --quiet",
       "rm -rf {$app->env->deploy_to}/wordpress/public",
       "ln -s {$app->env->deploy_to}/public {$app->env->deploy_to}/wordpress/public",
+      "rm -rf {$app->env->deploy_to}/wordpress/vendor",
+      "ln -s {$app->env->deploy_to}/vendor {$app->env->deploy_to}/wordpress/vendor",
       "mkdir -p {$app->env->deploy_to}/public/uploads",
       "touch {$app->env->deploy_to}/wordpress/.htaccess"
     );
@@ -92,6 +94,11 @@ group('uploads', function() {
   });
 });
 
+//wordpress plugins
+group('plugins', function() {
+  
+});
+
 //wordpress
 desc("Create and deploy wp-config.php for environment");
 task('wp_config','app', function($app) {
@@ -123,6 +130,10 @@ group("setup", function() {
     @mkdir("./public");
     info("create","wordpress/");
     @mkdir("./wordpress");
+    info("create","vendor/");
+    @mkdir("./vendor");
+    info("create","vendor/plugins");
+    @mkdir("./vendor/plugins");
     info("create",".gitignore");
     @file_put_contents("./.gitignore",include("lib/generators/gitignore.php"));
     info("success","project structure created");
