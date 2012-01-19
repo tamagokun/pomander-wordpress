@@ -16,7 +16,19 @@ group('deploy',function() {
     );
     run($cmd);
   });
-
+  
+  desc("Deploy plugins in environment.");
+  task('plugins','app', function($app) {
+    require "lib/PluginSpecification.php";
+    foreach($app->env->plugins as $name=>$plugin)
+    {
+      info("fetch","$name plugin");
+      $spec = new PluginSpecification($app,$name,$plugin);
+      run($spec->command);
+    }
+    info("plugins","Successfully deployed.");
+  });
+  
   task('all','app','deploy:setup','deploy:update','deploy:wordpress','wp_config','htaccess');
 
   desc("Complete Wordpress deployment stack (1 and done)");
