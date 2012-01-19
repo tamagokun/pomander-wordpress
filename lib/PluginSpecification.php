@@ -57,11 +57,11 @@ class PluginSpecification
 	public function command_dir($path)
 	{
 		$this->url = $path;
-		return array($path,{$this->app->env->deploy_to}/vendor/plugins/{$this->name});
+		return array($path,"{$this->app->env->deploy_to}/vendor/plugins/{$this->name}");
 	}
 	
 	public function run()
 	{
-		return call_user_func_array($this->run_cmd,$spec->command);
+		return call_user_func_array($this->run_cmd,array($this->command));
 	}
 }

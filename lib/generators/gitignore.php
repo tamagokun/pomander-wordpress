@@ -31,5 +31,7 @@ return <<<EOT
 /wordpress/wp-includes/*
 /wordpress/wp-content/
 /wordpress/wp-content/*
+/vendor/
+/vendor/*
 EOT;
 ?>
