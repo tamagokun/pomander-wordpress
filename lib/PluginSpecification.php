@@ -3,8 +3,8 @@
 class PluginSpecification
 {
 	public $version = "latest";
-	public $name, $command
-	private $app;
+	public $name, $url, $command;
+	private $app,$run_cmd="run";
 	
 	public function __construct($app, $name, $options=array())
 	{
@@ -28,6 +28,7 @@ class PluginSpecification
 					break;
 				case "dir":
 					$this->command = $this->command_dir($value);
+					$this->run_cmd = "put";
 					break;
 			}
 		}
@@ -39,11 +40,13 @@ class PluginSpecification
 		if(strpos($uri,"plugins.svn.wordpress.org") > -1 && strpos($uri,$this->name) === false)
 			$uri.=$this->name;
 		$uri.=($this->version == "latest")? "/trunk" : "/tags/{$this->version}";
+		$this->url = $uri;
 		return "svn export $uri {$this->app->env->deploy_to}/vendor/plugins/{$this->name} --force --quiet";
 	}
 	
 	public function command_git($uri)
 	{
+		$this->url = $uri;
 		if($this->version == "latest") $this->version = "origin/master";
 		return array(
 			"git clone $uri {$this->app->env->deploy_to}/vendor/plugins/{$this->name}",
@@ -53,6 +56,12 @@ class PluginSpecification
 	
 	public function command_dir($path)
 	{
-		return "cp -R $path {$this->app->env->deploy_to}/vendor/plugins/{$this->name}";
+		$this->url = $path;
+		return array($path,{$this->app->env->deploy_to}/vendor/plugins/{$this->name});
+	}
+	
+	public function run()
+	{
+		return call_user_func_array($this->run_cmd,$spec->command);
 	}
 }

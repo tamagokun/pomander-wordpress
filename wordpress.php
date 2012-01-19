@@ -22,9 +22,9 @@ group('deploy',function() {
     require "lib/PluginSpecification.php";
     foreach($app->env->plugins as $name=>$plugin)
     {
-      info("fetch","$name plugin");
       $spec = new PluginSpecification($app,$name,$plugin);
-      run($spec->command);
+      info("fetch","{$spec->name} plugin at {$spec->url}");
+      $spec->run();
     }
     info("plugins","Successfully deployed.");
   });
