@@ -20,11 +20,11 @@ group('deploy',function() {
   
   desc("Deploy plugins in environment.");
   task('plugins','app', function($app) {
-    require "lib/PluginSpecification.php";
+    require_once "lib/PluginSpecification.php";
     foreach($app->env->plugins as $name=>$plugin)
     {
       $spec = new PluginSpecification($app,$name,$plugin);
-      info("fetch","{$spec->name} plugin at {$spec->url}");
+      info("plugin","{$spec->name} at {$spec->url}");
       $spec->run();
     }
     info("plugins","Successfully deployed.");
@@ -130,7 +130,7 @@ task('htaccess','app', function($app) {
 });
 
 desc("Wordpress task stack for local machine (1 and done)");
-task('wpify','environment','deploy:wordpress','db:create','wp_config','htaccess', function($app) {
+task('wpify','environment','deploy:wordpress','deploy:plugins','db:create','wp_config','htaccess', function($app) {
   info("wpify","success");
 });
 
