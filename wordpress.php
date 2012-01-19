@@ -12,6 +12,7 @@ group('deploy',function() {
       "rm -rf {$app->env->deploy_to}/wordpress/vendor",
       "ln -s {$app->env->deploy_to}/vendor {$app->env->deploy_to}/wordpress/vendor",
       "mkdir -p {$app->env->deploy_to}/public/uploads",
+      "mkdir -p {$app->env->deploy_to}/vendor/plugins",
       "touch {$app->env->deploy_to}/wordpress/.htaccess"
     );
     run($cmd);
