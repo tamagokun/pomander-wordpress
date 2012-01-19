@@ -30,7 +30,7 @@ group('deploy',function() {
     info("plugins","Successfully deployed.");
   });
   
-  task('all','app','deploy:setup','deploy:update','deploy:wordpress','wp_config','htaccess');
+  task('all','app','deploy:setup','deploy:update','deploy:wordpress','deploy:plugins','wp_config','htaccess');
 
   desc("Complete Wordpress deployment stack (1 and done)");
   task('initial','deploy:all','db:create');
