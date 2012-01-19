@@ -19,8 +19,8 @@ if( !defined('ABSPATH') ) define('ABSPATH', dirname(__FILE__).'/wordpress/');
 define('WP_SITEURL', {$siteurl});
 define('WP_CONTENT_DIR', ABSPATH.'public');
 define('WP_CONTENT_URL', WP_SITEURL.'/public');
-define('WP_PLUGIN_DIR', dirname(__FILE__.'../').'/public/plugins');
-define('WP_PLUGIN_URL', WP_SITEURL.'/public/plugins');
+define('WP_PLUGIN_DIR', dirname(__FILE__.'../').'/vendor/plugins');
+define('WP_PLUGIN_URL', WP_SITEURL.'/vendor/plugins');
 define('PLUGINDIR', WP_PLUGIN_DIR);
 {$cache}
 require_once(ABSPATH . 'wp-settings.php');
