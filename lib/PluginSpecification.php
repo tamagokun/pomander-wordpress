@@ -62,6 +62,7 @@ class PluginSpecification
 	
 	public function run()
 	{
-		return call_user_func_array($this->run_cmd,array($this->command));
+		if(!is_array($this->command)) $this->command = array($this->command);
+		return call_user_func_array($this->run_cmd,$this->command);
 	}
 }
