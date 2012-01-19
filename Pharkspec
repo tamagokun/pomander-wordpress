@@ -4,7 +4,7 @@
   ->name('pomander-wordpress')
   ->authors('Mike Kruk <tamagokun@gmail.com>')
   ->homepage('http://github.com/tamagokun/pomander-wordpress')
-  ->version('0.1.1')
+  ->version('0.1.5')
   ->phpVersion('>=5.3.1')
   ->summary('Wordpress tasks for Pomander')
   ->description('A set of Wordpress tasks for deploying/managing Wordpress installs with Pomander.')
