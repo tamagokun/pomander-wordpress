@@ -9,7 +9,6 @@
   ->summary('Wordpress tasks for Pomander')
   ->description('A set of Wordpress tasks for deploying/managing Wordpress installs with Pomander.')
   ->files('wordpress.php','lib/**')
-  ->dependency('pomander')
   ->includePath('lib')
   ;
 ?>
