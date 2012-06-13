@@ -1,0 +1,23 @@
+{
+    "hash": "f1b96432fba7b66b3aeedc85f37ecd89",
+    "packages": [
+        {
+            "package": "phpseclib/phpseclib",
+            "version": "dev-master",
+            "source-reference": "2306b73677e6d85eb47cc92361952deb5a21842a"
+        },
+        {
+            "package": "pomander/pomander",
+            "version": "dev-master",
+            "source-reference": "ad6343f1ef9b5d7bddc3c4a4437b1435f6e5d4d1"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "pomander/pomander": 20
+    }
+}

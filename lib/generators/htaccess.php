@@ -1,6 +1,6 @@
 <?php
 $app = builder()->get_application();
-$uri = (isset($app->env->wordpress["base_uri"]))? $app->env->wordpress["base_uri"] : "";
+$uri = isset($app->env->wordpress["base_uri"])? $app->env->wordpress["base_uri"] : "";
 return <<<EOT
 <IfModule mod_rewrite.c>
 RewriteEngine On

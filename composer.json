@@ -1,0 +1,19 @@
+{
+	"name": "pomander/wordpress",
+	"type": "library",
+	"description": "Pomander plugin to deploy and manage Wordpress sites",
+	"keywords": ["deploy","git","svn","wordpress","pomander"],
+	"homepage": "http://github.com/tamagokun/pomander-wordpress",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Mike Kruk",
+			"email": "tamagokun@gmail.com",
+			"homepage": "http://ripeworks.com"
+		}
+	],
+	"require": {
+		"pomander/pomander": "dev-master"
+	},
+	"include_paths": ["./"]
+}

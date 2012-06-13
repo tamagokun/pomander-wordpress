@@ -17,7 +17,7 @@ group('deploy',function() {
     );
     run($cmd);
   });
-  
+
   desc("Deploy plugins in environment.");
   task('plugins','app', function($app) {
     require_once "lib/PluginSpecification.php";
@@ -29,7 +29,7 @@ group('deploy',function() {
     }
     info("plugins","Successfully deployed.");
   });
-  
+
   task('all','app','deploy:setup','deploy:update','deploy:wordpress','deploy:plugins','wp_config','htaccess');
 
   desc("Complete Wordpress deployment stack (1 and done)");

@@ -1,9 +1,9 @@
 <?php
 $app = builder()->get_application();
 $secret_keys = file_get_contents("https://api.wordpress.org/secret-key/1.1/salt/");
-$cache = (isset($app->env->wordpress["cache"]))? "define('WP_CACHE', {$app->env->wordpress["cache"]});" : "";
-$siteurl = (isset($app->env->wordpress["url"]))? "'{$app->env->wordpress["url"]}'":"'http://'.\$_SERVER['SERVER_NAME']";
-$siteurl .= (isset($app->env->wordpress["base_uri"]))? ".'{$app->env->wordpress["base_uri"]}'" : "";
+$cache = isset($app->env->wordpress["cache"])? "define('WP_CACHE', {$app->env->wordpress["cache"]});" : "";
+$siteurl = isset($app->env->wordpress["url"])? "'{$app->env->wordpress["url"]}'":"'http://'.\$_SERVER['SERVER_NAME']";
+$siteurl .= isset($app->env->wordpress["base_uri"])? ".'{$app->env->wordpress["base_uri"]}'" : "";
 return <<<EOT
 <?php
 define('DB_NAME', '{$app->env->wordpress["db"]}');
