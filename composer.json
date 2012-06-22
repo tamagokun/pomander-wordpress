@@ -20,5 +20,5 @@
 			"Pomander\\Wordpress": "lib"
 		}
 	},
-	"target-dir": "Pomander/Wordpress"
+	"target-dir": "Pomander"
 }
