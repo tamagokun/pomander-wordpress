@@ -19,6 +19,5 @@
 		"psr-0": {
 			"Pomander\\Wordpress": "lib"
 		}
-	},
-	"target-dir": "Pomander"
+	}
 }
