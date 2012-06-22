@@ -1,4 +1,5 @@
 <?php
+namespace Pomander\Wordpress;
 
 class PluginSpecification
 {

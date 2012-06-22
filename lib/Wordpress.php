@@ -1,4 +1,10 @@
 <?php
+namespace Pomander
+{
+	class Wordpress {}
+}
+
+namespace {
 
 group('deploy',function() {
 
@@ -20,10 +26,9 @@ group('deploy',function() {
 
   desc("Deploy plugins in environment.");
   task('plugins','app', function($app) {
-    require_once "lib/PluginSpecification.php";
     foreach($app->env->plugins as $name=>$plugin)
     {
-      $spec = new PluginSpecification($app,$name,$plugin);
+      $spec = new \Pomander\Wordpress\PluginSpecification($app,$name,$plugin);
       info("plugin","{$spec->name} at {$spec->url}");
       $spec->run();
     }
@@ -161,4 +166,4 @@ task('config',function() {
   copy(__DIR__."/lib/generators/config.yml","./deploy/development.yml");
 });
 
-?>
+}

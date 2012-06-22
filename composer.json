@@ -15,5 +15,10 @@
 	"require": {
 		"pomander/pomander": "dev-master"
 	},
-	"include_paths": ["./"]
+	"autoload": {
+		"psr-0": {
+			"Pomander\\Wordpress": "lib"
+		}
+	},
+	"target-dir": "Pomander/Wordpress"
 }
