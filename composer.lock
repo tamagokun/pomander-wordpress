@@ -1,5 +1,5 @@
 {
-    "hash": "645b90dfa3866326fe380c167d7682b0",
+    "hash": "4706d5ff38c47b44d2a440e91729465c",
     "packages": [
         {
             "package": "phpseclib/phpseclib",
@@ -10,8 +10,8 @@
         {
             "package": "pomander/pomander",
             "version": "dev-master",
-            "source-reference": "9af6c8976d662a5ffa870581e9ca85665f77f510",
-            "commit-date": "1340366836"
+            "source-reference": "100fe85aae53c5aefc40dd0ca42f9083026d1c99",
+            "commit-date": "1340374237"
         }
     ],
     "packages-dev": null,
