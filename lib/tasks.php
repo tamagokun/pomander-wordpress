@@ -114,7 +114,7 @@ group('plugins', function() {
 desc("Create and deploy wp-config.php for environment");
 task('wp_config','app', function($app) {
   info("config","creating wp-config.php");
-  file_put_contents("./tmp-wp-config",include("lib/generators/wp-config.php"));
+  file_put_contents("./tmp-wp-config",include(__DIR__."/generators/wp-config.php"));
   put("./tmp-wp-config","{$app->env->deploy_to}/wp-config.php");
   unlink("./tmp-wp-config");
 });
@@ -122,7 +122,7 @@ task('wp_config','app', function($app) {
 desc("Create and deploy .htaccess for environments");
 task('htaccess','app', function($app) {
   info("htaccess","creating .htaccess");
-  file_put_contents("./tmp-htaccess",include("lib/generators/htaccess.php"));
+  file_put_contents("./tmp-htaccess",include(__DIR__."/generators/htaccess.php"));
   put("./tmp-htaccess","{$app->env->deploy_to}/wordpress/.htaccess");
   unlink("./tmp-htaccess");
 });
@@ -146,7 +146,7 @@ group("setup", function() {
     info("create","vendor/plugins");
     @mkdir("./vendor/plugins");
     info("create",".gitignore");
-    @file_put_contents("./.gitignore",include("lib/generators/gitignore.php"));
+    @file_put_contents("./.gitignore",include(__DIR__."/generators/gitignore.php"));
     info("success","project structure created");
   });
 });
@@ -156,5 +156,5 @@ task("setup","setup:new","config",function() {
 });
 
 task('config',function() {
-  copy(__DIR__."/lib/generators/config.yml","./deploy/development.yml");
+  copy(__DIR__."/generators/config.yml","./deploy/development.yml");
 });
