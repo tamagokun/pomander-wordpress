@@ -6,7 +6,9 @@ group('deploy',function() {
     info("fetch","Wordpress {$app->env->wordpress["version"]}");
     $cmd = array(
 			"mkdir -p {$app->env->deploy_to}/wordpress",
-      "curl https://nodeload.github.com/WordPress/WordPress/tarball/{$app->env->wordpress["version"]} | tar --strip-components=1 -xzf - -C {$app->env->deploy_to}/wordpress",
+      "curl https://nodeload.github.com/WordPress/WordPress/tarball/{$app->env->wordpress["version"]} > {$app->env->deploy_to}/wordpress.tar",
+			"tar --strip-components=1 -xzf wordpress.tar -C {$app->env->deploy_to}/wordpress",
+			"rm -f {$app->env->deploy_to}/wordpress.tar",
       "rm -rf {$app->env->deploy_to}/wordpress/public",
       "ln -s {$app->env->deploy_to}/public {$app->env->deploy_to}/wordpress/public",
       "rm -rf {$app->env->deploy_to}/wordpress/vendor",

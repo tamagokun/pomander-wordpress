@@ -1,5 +1,5 @@
 url: localhost
-user: cap
+user:
 repository:
 revision:
 deploy_to:
