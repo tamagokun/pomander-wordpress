@@ -23,7 +23,7 @@ group('deploy',function() {
   desc("Deploy plugins in environment.");
   task('plugins','app', function($app) {
     if(!isset($app->env->plugins)) return;
-	foreach($app->env->plugins as $name=>$plugin)
+		foreach($app->env->plugins as $name=>$plugin)
     {
       $spec = new \Pomander\Wordpress\PluginSpecification($app,$name,$plugin);
       info("plugin","{$spec->name} at {$spec->url}");
