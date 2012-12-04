@@ -98,3 +98,30 @@ vendor/             Plugins go in here.
 wordpress/          Your Wordpress installation goes here. You should never really have to go into this folder
 wp-config.php       See that? We keep wp-config outside of your wordpress installation for added security
 ```
+
+Examples
+--------
+
+### Moving Uploads
+
+Grab uploads from production to ease development:
+
+```bash
+$ pom production uploads:pull
+```
+
+You can chain commands to move uploads between environments:
+
+```bash
+$ pom production uploads:pull staging uploads:push
+```
+
+### Moving Databases
+
+Merge production into development:
+
+```bash
+$ pom production db:backup development db:merge
+```
+
+If your environment has `backup: true`, Pomander will create a backup of the db prior to any merge procedure.
