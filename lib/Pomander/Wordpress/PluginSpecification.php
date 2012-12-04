@@ -42,7 +42,7 @@ class PluginSpecification
 			$uri.=$this->name;
 		$uri.=($this->version == "latest")? "/trunk" : "/tags/{$this->version}";
 		$this->url = $uri;
-		return "svn export $uri {$this->app->env->deploy_to}/vendor/plugins/{$this->name} --force --quiet";
+		return "svn export $uri {$this->app->env->release_dir}/vendor/plugins/{$this->name} --force --quiet";
 	}
 	
 	public function command_git($uri)
@@ -50,8 +50,8 @@ class PluginSpecification
 		$this->url = $uri;
 		if($this->version == "latest") $this->version = "origin/master";
 		return array(
-			"rm -rf {$this->app->env->deploy_to}/vendor/plugins/{$this->name}",
-			"git clone $uri {$this->app->env->deploy_to}/vendor/plugins/{$this->name}",
+			"rm -rf {$this->app->env->release_dir}/vendor/plugins/{$this->name}",
+			"git clone $uri {$this->app->env->release_dir}/vendor/plugins/{$this->name}",
 			"git fetch origin && git reset --hard {$this->version}"
 		);
 	}
@@ -59,7 +59,7 @@ class PluginSpecification
 	public function command_dir($path)
 	{
 		$this->url = $path;
-		return array($path,"{$this->app->env->deploy_to}/vendor/plugins/");
+		return array($path,"{$this->app->env->release_dir}/vendor/plugins/");
 	}
 	
 	public function run()
