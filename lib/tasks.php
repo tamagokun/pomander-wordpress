@@ -40,7 +40,7 @@ group('deploy',function() {
     info("plugins","Successfully deployed.");
   });
 
-	task('update', 'deploy:wordpress','deploy:plugins','wp_config','htaccess');
+	task('finalize', 'deploy:wordpress','deploy:plugins','wp_config','htaccess');
 
 });
 
