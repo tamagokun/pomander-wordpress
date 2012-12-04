@@ -11,17 +11,27 @@ Requirements:
 
 - [pomander](https://github.com/tamagokun/pomander)
 
-Until phark is more developed to allow installation of remote packages, this is how we do it:
-
-    $ git clone git://github.com/tamagokun/pomander-wordpress.git && cd pomander-wordpress
-    $ phark install .
-
 Usage
 -----
 
 * Run `pomify` if no Pomfile exists
-* Include plugin in Pomfile `include 'pomander-wordpress/wordpress.php';`
+* Include plugin in Pomfile `$pom->load('Wordpress');`
 * `pom -T` to see the stuff.
+
+Getting Started
+---------------
+
+```bash
+$ pom config
+```
+
+Modify your development.yml or development.php
+
+```bash
+$ pom setup
+```
+
+Done!
 
 Tasks
 -----
@@ -31,11 +41,10 @@ db:backup           Perform a backup of environment's database for use in mergin
 db:create           Create database in environment if it doesn't already exist
 db:full             Store a full database backup
 db:merge            Merge a backed up database into environment
-deploy:initial      Complete Wordpress deployment stack (1 and done)
 deploy:plugins      Deploy plugins in environment.
 deploy:wordpress    Deploy Wordpress in environment.
 htaccess            Create and deploy .htaccess for environments
-setup               Setup project structure and create development.yml
+setup               Alias of wpify
 uploads:pull        Download uploads from environment
 uploads:push        Place all local uploads into environment
 wp_config           Create and deploy wp-config.php for environment
