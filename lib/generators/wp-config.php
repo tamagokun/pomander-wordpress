@@ -6,11 +6,11 @@ $siteurl = isset($app->env->wordpress["url"])? "'{$app->env->wordpress["url"]}'"
 $siteurl .= isset($app->env->wordpress["base_uri"])? ".'{$app->env->wordpress["base_uri"]}'" : "";
 return <<<EOT
 <?php
-define('DB_NAME', '{$app->env->wordpress["db"]}');
-define('DB_USER', '{$app->env->wordpress["db_user"]}');
-define('DB_PASSWORD', '{$app->env->wordpress["db_password"]}');
-define('DB_HOST', '{$app->env->wordpress["db_host"]}');
-define('DB_CHARSET', '{$app->env->wordpress["db_charset"]}');
+define('DB_NAME', '{$app->env->database["name"]}');
+define('DB_USER', '{$app->env->database["user"]}');
+define('DB_PASSWORD', '{$app->env->database["password"]}');
+define('DB_HOST', '{$app->env->database["host"]}');
+define('DB_CHARSET', '{$app->env->database["charset"]}');
 define('DB_COLLATE', '');
 {$secret_keys}
 \$table_prefix = '{$app->env->wordpress["db_prefix"]}';
