@@ -48,13 +48,13 @@ group('deploy',function() {
 group('db', function() {
   desc("Create database in environment if it doesn't already exist");
   task('create','db', function($app) {
-    info("create","database {$app->env->wordpress["db"]}");
+    info("create","database {$app->env->database["name"]}");
     run($app->env->adapter->create());
   });
 
   desc("Perform a backup of environment's database for use in merging");
   task('backup','db', function($app) {
-    info("backup",$app->env->wordpress["db"]);
+    info("backup",$app->env->database["name"]);
     run($app->env->adapter->dump($app->env->shared_dir."/dump.sql","--lock-tables=FALSE --skip-add-drop-table | sed -e 's|INSERT INTO|REPLACE INTO|' -e 's|CREATE TABLE|CREATE TABLE IF NOT EXISTS|'"));
     info("fetch","{$app->env->shared_dir}/dump.sql");
     get("{$app->env->shared_dir}/dump.sql","./tmpdump.sql");
@@ -65,7 +65,7 @@ group('db', function() {
 
   desc("Merge a backed up database into environment");
   task('merge','db', function($app) {
-    info("merge","database {$app->env->wordpress["db"]}");
+    info("merge","database {$app->env->database["name"]}");
     $file = $app->env->shared_dir."/deploy/dump.sql";
     if(!file_exists("./tmpdump.sql"))
       warn("merge","i need a backup to merge with (dump.sql). Try running db:backup first");
@@ -88,7 +88,7 @@ group('db', function() {
 
   desc("Store a full database backup");
   task('full','db',function($app) {
-    $file = $app->env->wordpress["db"]."_".@date('Ymd_His').".bak.sql.bz2";
+    $file = $app->env->database["name"]."_".@date('Ymd_His').".bak.sql.bz2";
     info("full backup",$file);
     $cmd = array(
       "umask 002",
@@ -154,6 +154,6 @@ task('config',function() {
 	@mkdir("./vendor");
 	@mkdir("./vendor/plugins");
 	@file_put_contents("./.gitignore",include(__DIR__."/generators/gitignore.php"));
-  copy(__DIR__."/generators/config.yml","./deploy/development.yml");
+  copy(__DIR__."/generators/config.php","./deploy/development.php");
 	info("success","run 'wpify' or 'setup' after you configure development to get going");
 });
