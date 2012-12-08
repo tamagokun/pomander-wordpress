@@ -5,7 +5,7 @@ namespace Pomander
 	{
 		public static function load()
 		{
-			require dirname(__DIR__).'/tasks.php';
+			require_once dirname(__DIR__).'/tasks.php';
 		}
 	}
 }
