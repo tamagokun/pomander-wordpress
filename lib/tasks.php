@@ -146,14 +146,16 @@ task('wpify','environment','deploy:wordpress','deploy:plugins','db:create','wp_c
 desc("Alias for wpify");
 task("setup","wpify");
 
-task('config',function() {
-	umask(002);
-	@mkdir("./deploy");
-	@mkdir("./public");
-	@mkdir("./wordpress");
-	@mkdir("./vendor");
-	@mkdir("./vendor/plugins");
-	@file_put_contents("./.gitignore",include(__DIR__."/generators/gitignore.php"));
-  copy(__DIR__."/generators/config.php","./deploy/development.php");
-	info("success","run 'wpify' or 'setup' after you configure development to get going");
+group('config', function() {
+	task('wordpress',function() {
+		umask(002);
+		@mkdir("./deploy");
+		@mkdir("./public");
+		@mkdir("./wordpress");
+		@mkdir("./vendor");
+		@mkdir("./vendor/plugins");
+		@file_put_contents("./.gitignore",include(__DIR__."/generators/gitignore.php"));
+		copy(__DIR__."/generators/config.php","./deploy/development.php");
+		info("success","run 'wpify' or 'setup' after you configure development to get going");
+	});
 });

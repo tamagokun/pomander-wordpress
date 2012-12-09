@@ -1,12 +1,10 @@
 <?php
 return <<<EOT
 .DS_Store*
-/.toolkit/
-/.toolkit/*
 /wp-config.php
 /backup/
 /backup/*
-/deploy/development.yml
+/deploy/development.*
 /public/index.php
 /public/uploads/*
 /public/cache/*
