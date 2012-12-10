@@ -66,7 +66,7 @@ group('db', function() {
   desc("Merge a backed up database into environment");
   task('merge','db', function($app) {
     info("merge","database {$app->env->database["name"]}");
-    $file = $app->env->shared_dir."/deploy/dump.sql";
+    $file = $app->env->shared_dir."/dump.sql";
     if(!file_exists("./tmpdump.sql"))
       warn("merge","i need a backup to merge with (dump.sql). Try running db:backup first");
     if(isset($app->old_url))
