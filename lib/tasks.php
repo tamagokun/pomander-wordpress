@@ -1,4 +1,5 @@
 <?php
+
 group('deploy',function() {
 
   desc("Deploy Wordpress in environment.");
@@ -72,10 +73,15 @@ group('db', function() {
     if(isset($app->old_url))
     {
       info("premerge","replace {$app->old_url} with {$app->env->url}");
-			shell_exec("echo 'UPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n' >> ./tmpdump.sql");
-			// remove?
-      shell_exec("sed -e 's|http://{$app->old_url}|http://{$app->env->url}|g' ./tmpdump.sql > ./dump.sql.changed");
-      shell_exec("rm ./tmpdump.sql && mv ./dump.sql.changed ./tmpdump.sql");
+			$handle = fopen("./tmpdump.sql", 'rb');
+			$sql = fread($handle, filesize("./tmpdump.sql"));
+			fclose($handle);
+			$sql = preg_replace("|http://{$app->old_url}|", "http://${$app->env->url}", $sql);
+			$sql = preg_replace('!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!e', "'s:'.strlen(Wordpress::unescape_mysql('$3')).':\"'.Wordpress::unescape_quotes('$3').'\";'", $sql);
+			$sql = $sql."\nUPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n";
+			$handle = fopen("./tmpdump.sql", 'w');
+			fwrite($handle, $sql);
+			fclose($handle);
     }
     if( isset($app->env->backup) && $app->env->backup)
       $app->invoke("db:full");
