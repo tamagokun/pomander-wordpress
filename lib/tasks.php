@@ -76,7 +76,7 @@ group('db', function() {
 			$handle = fopen("./tmpdump.sql", 'rb');
 			$sql = fread($handle, filesize("./tmpdump.sql"));
 			fclose($handle);
-			$sql = preg_replace("|http://{$app->old_url}|", "http://${$app->env->url}", $sql);
+			$sql = preg_replace("|http://{$app->old_url}|", "http://{$app->env->url}", $sql);
 			$sql = preg_replace('!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!e', "'s:'.strlen(Wordpress::unescape_mysql('$3')).':\"'.Wordpress::unescape_quotes('$3').'\";'", $sql);
 			$sql = $sql."\nUPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n";
 			$handle = fopen("./tmpdump.sql", 'w');
