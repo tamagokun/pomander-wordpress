@@ -5,7 +5,7 @@ namespace Pomander
 	{
 		public static function load()
 		{
-			require_once dirname(__DIR__).'/tasks.php';
+			require dirname(__DIR__).'/tasks.php';
 		}
 
 		public static function unescape_mysql($value)
