@@ -69,12 +69,17 @@ before('db:merge', function($app) {
 	fclose($handle);
 
 	if(isset($app->old_url))
+	{
+		info("premerge","replace {$app->old_url} with {$app->env->url}");
+		$sql = preg_replace("|http://{$app->old_url}|", "http://{$app->env->url}", $sql);
 		$sql = preg_replace('!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!e', "'s:'.strlen(\Pomander\Wordpress::unescape_mysql('$3')).':\"'.\Pomander\Wordpress::unescape_quotes('$3').'\";'", $sql);
+	}
 	$sql = $sql."\nUPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"http://{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n";
 
 	$handle = fopen("./tmpdump.sql", 'w');
 	fwrite($handle, $sql);
 	fclose($handle);
+	unset($app->old_url);
 });
 
 //wordpress uploads
