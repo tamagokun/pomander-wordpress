@@ -59,64 +59,22 @@ after('deploy:finalize', function($app) {
   run($cmd);
 });
 
-//db
-group('db', function() {
-  desc("Create database in environment if it doesn't already exist");
-  task('create','db', function($app) {
-    info("create","database {$app->env->database["name"]}");
-    run($app->env->adapter->create());
-  });
+//db merging
+before('db:merge', function($app) {
+	if(!file_exists("./tmpdump.sql")) return;
+	if(!$app->env->db_swap_url) return;
+	
+	$handle = fopen("./tmpdump.sql", 'rb');
+	$sql = fread($handle, filesize("./tmpdump.sql"));
+	fclose($handle);
 
-  desc("Perform a backup of environment's database for use in merging");
-  task('backup','db', function($app) {
-    info("backup",$app->env->database["name"]);
-    run($app->env->adapter->dump($app->env->shared_dir."/dump.sql","--lock-tables=FALSE --skip-add-drop-table | sed -e 's|INSERT INTO|REPLACE INTO|' -e 's|CREATE TABLE|CREATE TABLE IF NOT EXISTS|'"));
-    info("fetch","{$app->env->shared_dir}/dump.sql");
-    get("{$app->env->shared_dir}/dump.sql","./tmpdump.sql");
-    $app->old_url = $app->env->url;
-    info("clean","dump.sql");
-    run("rm {$app->env->shared_dir}/dump.sql");
-  });
+	if(isset($app->old_url))
+		$sql = preg_replace('!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!e', "'s:'.strlen(\Pomander\Wordpress::unescape_mysql('$3')).':\"'.\Pomander\Wordpress::unescape_quotes('$3').'\";'", $sql);
+	$sql = $sql."\nUPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"http://{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n";
 
-  desc("Merge a backed up database into environment");
-  task('merge','db', function($app) {
-    info("merge","database {$app->env->database["name"]}");
-    $file = $app->env->shared_dir."/dump.sql";
-    if(!file_exists("./tmpdump.sql"))
-      warn("merge","i need a backup to merge with (dump.sql). Try running db:backup first");
-    if(isset($app->old_url))
-    {
-      info("premerge","replace {$app->old_url} with {$app->env->url}");
-			$handle = fopen("./tmpdump.sql", 'rb');
-			$sql = fread($handle, filesize("./tmpdump.sql"));
-			fclose($handle);
-			$sql = preg_replace("|http://{$app->old_url}|", "http://{$app->env->url}", $sql);
-			$sql = preg_replace('!s:(\d+):([\\\\]?"[\\\\]?"|[\\\\]?"((.*?)[^\\\\])[\\\\]?");!e', "'s:'.strlen(\Pomander\Wordpress::unescape_mysql('$3')).':\"'.\Pomander\Wordpress::unescape_quotes('$3').'\";'", $sql);
-			$sql = $sql."\nUPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"http://{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n";
-			$handle = fopen("./tmpdump.sql", 'w');
-			fwrite($handle, $sql);
-			fclose($handle);
-    }
-    if( isset($app->env->backup) && $app->env->backup)
-      $app->invoke("db:full");
-    info("merge","dump.sql");
-    put("./tmpdump.sql",$file);
-    run($app->env->adapter->merge($file),"rm -rf $file");
-    info("clean","tmpdump.sql");
-    unlink("./tmpdump.sql");
-  });
-
-  desc("Store a full database backup");
-  task('full','db',function($app) {
-    $file = $app->env->database["name"]."_".@date('Ymd_His').".bak.sql.bz2";
-    info("full backup",$file);
-    $cmd = array(
-      "umask 002",
-      "mkdir -p {$app->env->shared_dir}/backup",
-      $app->env->adapter->backup($app->env->shared_dir."/backup/".$file, "--add-drop-table")
-    );
-    run($cmd);
-  });
+	$handle = fopen("./tmpdump.sql", 'w');
+	fwrite($handle, $sql);
+	fclose($handle);
 });
 
 //wordpress uploads
