@@ -44,7 +44,7 @@ group('deploy',function() {
 	task('finalize', 'deploy:wordpress','deploy:plugins','wp_config','htaccess');
 });
 
-after('finalize', function($app) {
+after('deploy:finalize', function($app) {
   if(!isset($app->env->wordpress["compat"]) || $app->env->wordpress["compat"] == false) return;
   info("Create Symlinks", "adding symlinks");
   // Note: This removes the TwentyTen theme if it exists. User will need to include it in their repo if they rely on it.
