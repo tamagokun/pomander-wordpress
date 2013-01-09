@@ -40,26 +40,23 @@ group('deploy',function() {
     }
     info("plugins","Successfully deployed.");
   });
-  
-  
+
+	task('finalize', 'deploy:wordpress','deploy:plugins','wp_config','htaccess');
+});
+
 after('finalize', function($app) {
   if(!isset($app->env->wordpress["compat"]) || $app->env->wordpress["compat"] == false) return;
   info("Create Symlinks", "adding symlinks");
   // Note: This removes the TwentyTen theme if it exists. User will need to include it in their repo if they rely on it.
   $cmd = array(
-                "rm -rf /{$app->env->release_dir}/wordpress/wp-content/themes",
-                "ln -s {$app->env->release_dir}/public/themes {$app->env->release_dir}/wordpress/wp-content/themes",
-                "rm -rf /{$app->env->release_dir}/wordpress/wp-content/plugins",
-                "ln -s {$app->env->release_dir}/vendor/plugins {$app->env->release_dir}/wordpress/wp-content/plugins",
-                "ln -s {$app->env->release_dir}/vendor/plugins {$app->env->release_dir}/public/plugins",
-                "ln -s {$app->env->release_dir}/public/uploads {$app->env->release_dir}/wordpress/wp-content/uploads"
+		"rm -rf /{$app->env->release_dir}/wordpress/wp-content/themes",
+		"ln -s {$app->env->release_dir}/public/themes {$app->env->release_dir}/wordpress/wp-content/themes",
+		"rm -rf /{$app->env->release_dir}/wordpress/wp-content/plugins",
+		"ln -s {$app->env->release_dir}/vendor/plugins {$app->env->release_dir}/wordpress/wp-content/plugins",
+		"ln -s {$app->env->release_dir}/vendor/plugins {$app->env->release_dir}/public/plugins",
+		"ln -s {$app->env->release_dir}/public/uploads {$app->env->release_dir}/wordpress/wp-content/uploads"
   );
   run($cmd);
-  
-});
-
-	task('finalize', 'deploy:wordpress','deploy:plugins','wp_config','htaccess');
-
 });
 
 //db
