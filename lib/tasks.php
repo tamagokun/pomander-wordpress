@@ -70,8 +70,9 @@ before('db:merge', function($app) {
 	$sql = fread($handle, filesize("./tmpdump.sql"));
 	fclose($handle);
 
-	if(isset($app->old_url))
+	if(isset($app->old_url) || isset($app['merge_url']))
 	{
+		if(isset($app['merge_url'])) $app->old_url = $app['merge_url'];
 		info("premerge","replace {$app->old_url} with {$app->env->url}");
 		$sql = preg_replace("|http://{$app->old_url}|", "http://{$app->env->url}", $sql);
 		$sql = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $sql);
