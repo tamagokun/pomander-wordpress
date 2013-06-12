@@ -23,6 +23,7 @@ group('deploy',function() {
 		}else
 		{
 			$cmd[] = "mkdir -p {$app->env->shared_dir}/uploads";
+			$cmd[] = "mkdir -p {$app->env->release_dir}/public";
 			$cmd[] = "rm -rf {$app->env->release_dir}/public/uploads";
 			$cmd[] = "ln -s {$app->env->shared_dir}/uploads {$app->env->release_dir}/public/uploads";
 		}
