@@ -46,6 +46,10 @@ group('deploy',function() {
 });
 
 after('deploy:finalize', function($app) {
+	$app->invoke('compatibility_mode');
+});
+
+task('compatibility_mode', function($app) {
 	if(!isset($app->env->wordpress["compat"]) || $app->env->wordpress["compat"] == false) return;
 	info("Create Symlinks", "adding symlinks");
 	// Note: This removes the TwentyTen theme if it exists. User will need to include it in their repo if they rely on it.
@@ -125,7 +129,7 @@ task('htaccess','app', function($app) {
 });
 
 desc("Wordpress task stack for local machine (1 and done)");
-task('wpify','environment','deploy:wordpress','deploy:plugins','db:create','wp_config','htaccess', function($app) {
+task('wpify','environment','deploy:wordpress','deploy:plugins','db:create','wp_config','htaccess','compatibility_mode', function($app) {
 	info("wpify","success");
 });
 
