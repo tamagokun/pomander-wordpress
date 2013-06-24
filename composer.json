@@ -13,7 +13,7 @@
 		}
 	],
 	"require": {
-		"pomander/pomander": "dev-master"
+		"pomander/pomander": "*"
 	},
 	"autoload": {
 		"psr-0": {
