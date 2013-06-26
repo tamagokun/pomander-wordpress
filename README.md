@@ -14,15 +14,15 @@ Requirements:
 Usage
 -----
 
-* Run `pomify` if no Pomfile exists
-* Include plugin in Pomfile `$pom->load('Wordpress');`
+* `pom init` if no configuration found.
+* Include plugin in environment config `$env->load('Wordpress');`
 * `pom -T` to see the stuff.
 
 Getting Started
 ---------------
 
 ```bash
-$ pom config
+$ pom init
 ```
 
 Modify your development.yml or development.php
@@ -54,39 +54,65 @@ wpify               Wordpress task stack for local machine (1 and done)
 Configuration
 ------------
 
-This plugin introduces some new configuration options for your environment .yml files. Here is an overview:
+This plugin introduces a __wordpress__ option, and a __plugins__ option. These are both array structures that you can configure either in a PHP based config, or a YAML based config.
 
-```yaml
-wordpress:              # wp-config stack. Self-explanatory, right?
-  version: 3.3.1
-  db: wp_database
-  db_user: root
-  db_password:
-  db_host: localhost
-  db_prefix: wp_
-  db_charset: utf8
-  base_uri: /wordpress  # Base uri for Wordpress installation (example: dev.local/mywebsite/wordpress)
+An example of what a .php config for a Wordpress might look like:
+
+```php
+$env->database(array(
+	'name' => 'my_wordpress',
+	'user' => 'root',
+	'password' => '',
+	'host' => '127.0.0.1',
+	'charset' => 'utf8'
+));
+
+$env->wordpress(array(
+	'version' => '3.5.2',
+	'db_prefix' => 'wp_',
+	'base_uri' => ''
+));
+
+$env->plugins(array(
+	'advanced-custom-fields' => array('version' => 'latest'),
+	'gravityforms' => array('dir' => 'lib/gravityforms')
+));
 ```
 
-Plugins are handled by a `plugins` hash. You can provide a specific version, as well as where to find the plugin (supports svn,git,and dir). Plugins are deployed into `vendor/plugins`.
+And an example of a YAML based config:
 
 ```yaml
-plugins:                
+database:
+	name: my_wordpress
+	user: root
+	password:
+	host: 127.0.0.1
+	charset: utf8
+
+wordpress:
+	version: 3.5.2
+	db_prefix: wp_
+	base_uri: /wordpress # Base uri for Wordpress installation (example: dev.local/wordpress)
+
+plugins:
 	more-types: {version: latest}
 	more-fields: {version: 2.1, svn: http://plugins.svn.wordpress.org/more-fields}
 	gravityforms: {dir: some_other_dir/gravityforms}
 	my-plugin: {branch: origin/master, git: https://github.com/dude/my-plugin.git}
 ```
 
-Plugins specified without a location will default to the Wordpress plugin repository.
+Plugins can be provided with:
 
+ * __version__ - defaults to "latest"
+ * __location__ (git/svn/dir) - defaults to Wordpress plugin repository
+ * __branch__ - Specify which branch of a repository to use
 
 Structure
 ---------
 
 You can certainly use this plugin however you please, but some tasks are
 expecting a certain Wordpress structure that I feel is much better than
-the usualy Wordpress folder structure. Here we go:
+the typical Wordpress folder structure. Here we go:
 
 ```
 deploy/             This is where your Pomander configs go (nothing weird about that)
