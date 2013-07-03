@@ -7,7 +7,7 @@ group('deploy',function() {
 		info("fetch","Wordpress {$app->env->wordpress["version"]}");
 		$cmd = array(
 			"mkdir -p {$app->env->release_dir}/wordpress",
-			"curl -sL https://nodeload.github.com/WordPress/WordPress/tar.gz/{$app->env->wordpress["version"]} > {$app->env->release_dir}/wordpress.tar",
+			"curl -sL https://github.com/WordPress/WordPress/archive/master.tar.gz > {$app->env->release_dir}/wordpress.tar",
 			"tar --strip-components=1 -xzf {$app->env->release_dir}/wordpress.tar -C {$app->env->release_dir}/wordpress",
 			"rm -f {$app->env->release_dir}/wordpress.tar",
 			"rm -rf {$app->env->release_dir}/wordpress/public",
@@ -15,7 +15,11 @@ group('deploy',function() {
 			"rm -rf {$app->env->release_dir}/wordpress/vendor",
 			"ln -s {$app->env->release_dir}/vendor {$app->env->release_dir}/wordpress/vendor",
 			"mkdir -p {$app->env->release_dir}/vendor/plugins",
-			"touch {$app->env->release_dir}/wordpress/.htaccess"
+			"touch {$app->env->release_dir}/wordpress/.htaccess",
+            "echo \"<?php
+        // WordPress view bootstrapper
+        define( 'WP_USE_THEMES', true );
+        require( './wp/wp-blog-header.php' );\" > {$app->env->release_dir}/index.php"
 		);
 		if($app->env->releases === false)
 		{
@@ -69,7 +73,7 @@ task('compatibility_mode', function($app) {
 before('db:merge', function($app) {
 	if(!file_exists("./tmpdump.sql")) return;
 	if(!$app->env->db_swap_url) return;
-	
+
 	$handle = fopen("./tmpdump.sql", 'rb');
 	$sql = fread($handle, filesize("./tmpdump.sql"));
 	fclose($handle);
@@ -108,7 +112,7 @@ group('uploads', function() {
 
 //wordpress plugins
 group('plugins', function() {
-  
+
 });
 
 //wordpress
