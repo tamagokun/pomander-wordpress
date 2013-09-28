@@ -10,13 +10,20 @@ group('deploy',function() {
 			"curl -sL https://github.com/WordPress/WordPress/archive/{$app->env->wordpress["version"]}.tar.gz > {$app->env->release_dir}/wordpress.tar",
 			"tar --strip-components=1 -xzf {$app->env->release_dir}/wordpress.tar -C {$app->env->release_dir}/wordpress",
 			"rm -f {$app->env->release_dir}/wordpress.tar",
-			"rm -rf {$app->env->release_dir}/wordpress/public",
-			"ln -s {$app->env->release_dir}/public {$app->env->release_dir}/wordpress/public",
-			"rm -rf {$app->env->release_dir}/wordpress/vendor",
-			"ln -s {$app->env->release_dir}/vendor {$app->env->release_dir}/wordpress/vendor",
-			"mkdir -p {$app->env->release_dir}/vendor/plugins",
-			"touch {$app->env->release_dir}/wordpress/.htaccess"
+			"mkdir -p {$app->env->release_dir}/vendor/plugins"
 		);
+		
+		if(isset($app->env->wordpress['wp_own_directory']) && $app->env->wordpress['wp_own_directory'] == true){
+			$cmd[] = "cp {$app->env->release_dir}/wordpress/index.php {$app->env->release_dir}/index.php";
+			$cmd[] = "sed -i.bak 's/wp-blog-header.php/wordpress\/wp-blog-header.php/g' {$app->env->release_dir}/index.php";
+			$cmd[] = "rm {$app->env->release_dir}/index.php.bak";
+		}else{
+			$cmd[] = "rm -rf {$app->env->release_dir}/wordpress/public";
+			$cmd[] = "ln -s {$app->env->release_dir}/public {$app->env->release_dir}/wordpress/public";
+			$cmd[] = "rm -rf {$app->env->release_dir}/wordpress/vendor";
+			$cmd[] = "ln -s {$app->env->release_dir}/vendor {$app->env->release_dir}/wordpress/vendor";
+		}
+
 		if($app->env->releases === false)
 		{
 			$cmd[] = "mkdir -p {$app->env->release_dir}/public/uploads";
@@ -125,6 +132,9 @@ task('htaccess','app', function($app) {
 	info("htaccess","creating .htaccess");
 	file_put_contents("./tmp-htaccess",include(__DIR__."/generators/htaccess.php"));
 	put("./tmp-htaccess","{$app->env->release_dir}/wordpress/.htaccess");
+	if(isset($app->env->wordpress['wp_own_directory']) && $app->env->wordpress['wp_own_directory'] == true){
+		put("./tmp-htaccess","{$app->env->release_dir}/.htaccess");
+	}
 	unlink("./tmp-htaccess");
 });
 
