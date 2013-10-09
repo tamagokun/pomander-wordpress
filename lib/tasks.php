@@ -79,7 +79,7 @@ before('db:merge', function($app) {
 		if(isset($app['merge_url'])) $app->old_url = $app['merge_url'];
 		info("premerge","replace {$app->old_url} with {$app->env->url}");
 		$sql = preg_replace("|http://{$app->old_url}|", "http://{$app->env->url}", $sql);
-		$sql = preg_replace_callback('|s:(\d+):\\\?"(.*?)\\\?";|', function($matches) { return "s:" . strlen($matches[2]) . ":\"" . $matches[2] . "\";"; }, $sql);
+		$sql = preg_replace_callback('|s:(\d+):\\\?"(.*?)\\\?";|', function($matches) { return "s:" . strlen(stripslashes($matches[2])) . ":\"" . $matches[2] . "\";"; }, $sql);
 	}
 	$sql = $sql."\nUPDATE {$app->env->wordpress["db_prefix"]}options SET option_value=\"http://{$app->env->url}\" WHERE option_name=\"siteurl\" OR option_name=\"home\";\n";
 
