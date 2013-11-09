@@ -13,7 +13,8 @@
 		}
 	],
 	"require": {
-		"pomander/pomander": "*"
+		"jaz303/phake": "@dev",
+		"pomander/pomander": "@dev"
 	},
 	"autoload": {
 		"psr-0": {

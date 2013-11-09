@@ -3,8 +3,9 @@ namespace Pomander
 {
 	class Wordpress
 	{
-		public static function load()
+		public static function load($env)
 		{
+			if(!isset($env->wordpress)) $env->wordpress = self::defaults();
 			require dirname(__DIR__).'/tasks.php';
 		}
 
@@ -18,6 +19,16 @@ namespace Pomander
 		public static function unescape_quotes($value)
 		{
 			return str_replace('\"', '"', $value);
+		}
+
+		protected static function defaults()
+		{
+			return array(
+				'version' => 'latest',
+				'db_prefix' => 'wp_',
+				'base_uri' => '',
+				'install_dir' => 'wordpress'
+			);
 		}
 	}
 }

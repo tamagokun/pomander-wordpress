@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "f8298554a4c2f0c8a2d6f27247c26c12",
+    "hash": "ed24f613b39eb32e2186e4ce276aab65",
     "packages": [
         {
             "name": "jaz303/phake",
-            "version": "v0.5.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jaz303/phake.git",
-                "reference": "v0.5.0"
+                "reference": "e78836990de25ad195b1e4564385a588efb75820"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jaz303/phake/zipball/v0.5.0",
-                "reference": "v0.5.0",
+                "url": "https://api.github.com/repos/jaz303/phake/zipball/e78836990de25ad195b1e4564385a588efb75820",
+                "reference": "e78836990de25ad195b1e4564385a588efb75820",
                 "shasum": ""
             },
             "require": {
@@ -26,6 +26,15 @@
                 "bin/phake"
             ],
             "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "phake": "lib/"
+                },
+                "files": [
+                    "lib/functions.php",
+                    "lib/term_colors.php"
+                ]
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
@@ -43,7 +52,7 @@
                 "automation",
                 "cli"
             ],
-            "time": "2013-05-27 18:36:49"
+            "time": "2013-08-21 08:36:46"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -51,12 +60,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "0.3.5"
+                "reference": "fe3765fe1773c9d62985d05d5b5da24c921c4bd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/0.3.5",
-                "reference": "0.3.5",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/fe3765fe1773c9d62985d05d5b5da24c921c4bd0",
+                "reference": "fe3765fe1773c9d62985d05d5b5da24c921c4bd0",
                 "shasum": ""
             },
             "require": {
@@ -121,21 +130,21 @@
         },
         {
             "name": "pomander/pomander",
-            "version": "0.3.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tamagokun/pomander.git",
-                "reference": "0.3.3"
+                "reference": "9323c93aed5e33d94bb2301dc1c25c523a467f46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tamagokun/pomander/zipball/0.3.3",
-                "reference": "0.3.3",
+                "url": "https://api.github.com/repos/tamagokun/pomander/zipball/9323c93aed5e33d94bb2301dc1c25c523a467f46",
+                "reference": "9323c93aed5e33d94bb2301dc1c25c523a467f46",
                 "shasum": ""
             },
             "require": {
-                "jaz303/phake": "*",
-                "phpseclib/phpseclib": "*"
+                "jaz303/phake": "@dev",
+                "phpseclib/phpseclib": "@stable"
             },
             "bin": [
                 "bin/pom"
@@ -164,7 +173,7 @@
                 "git",
                 "svn"
             ],
-            "time": "2013-06-24 13:01:45"
+            "time": "2013-11-07 16:39:03"
         }
     ],
     "packages-dev": [
@@ -174,9 +183,10 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "jaz303/phake": 20,
+        "pomander/pomander": 20
+    },
     "platform": [
 
     ],
