@@ -4,19 +4,11 @@ group('deploy',function() {
 
 	desc("Deploy Wordpress in environment.");
 	task('wordpress','app', function($app) {
-		info("fetch","Wordpress {$app->env->wordpress["version"]}");
-		$cmd = array(
-			"mkdir -p {$app->env->release_dir}/wordpress",
-			"curl -sL https://github.com/WordPress/WordPress/archive/{$app->env->wordpress["version"]}.tar.gz > {$app->env->release_dir}/wordpress.tar",
-			"tar --strip-components=1 -xzf {$app->env->release_dir}/wordpress.tar -C {$app->env->release_dir}/wordpress",
-			"rm -f {$app->env->release_dir}/wordpress.tar",
-			"rm -rf {$app->env->release_dir}/wordpress/public",
-			"ln -s {$app->env->release_dir}/public {$app->env->release_dir}/wordpress/public",
-			"rm -rf {$app->env->release_dir}/wordpress/vendor",
-			"ln -s {$app->env->release_dir}/vendor {$app->env->release_dir}/wordpress/vendor",
-			"mkdir -p {$app->env->release_dir}/vendor/plugins",
-			"touch {$app->env->release_dir}/wordpress/.htaccess"
-		);
+		$release = new \Pomander\Wordpress\Release(isset($app->env->wordpress["version"]) ? $app->env->wordpress["version"] : "latest");
+		info("fetch","Wordpress {$release->version}");
+
+		$cmd = $release->deploy($app->env);
+
 		if($app->env->releases === false)
 		{
 			$cmd[] = "mkdir -p {$app->env->release_dir}/public/uploads";
@@ -91,6 +83,7 @@ before('db:merge', function($app) {
 
 //wordpress uploads
 group('uploads', function() {
+
 	desc("Download uploads from environment");
 	task('pull','app', function($app) {
 		info("uploads","backing up environment uploads");
@@ -104,6 +97,7 @@ group('uploads', function() {
 		info("uploads","deploying");
 		put("./public/uploads/","{$app->env->release_dir}/public/uploads");
 	});
+
 });
 
 //wordpress plugins
@@ -115,16 +109,16 @@ group('plugins', function() {
 desc("Create and deploy wp-config.php for environment");
 task('wp_config','app', function($app) {
 	info("config","creating wp-config.php");
-	file_put_contents("./tmp-wp-config",include(__DIR__."/generators/wp-config.php"));
-	put("./tmp-wp-config","{$app->env->release_dir}/wp-config.php");
+	file_put_contents("./tmp-wp-config", include(__DIR__."/generators/wp-config.php"));
+	put("./tmp-wp-config", "{$app->env->release_dir}/wp-config.php");
 	unlink("./tmp-wp-config");
 });
 
 desc("Create and deploy .htaccess for environments");
 task('htaccess','app', function($app) {
 	info("htaccess","creating .htaccess");
-	file_put_contents("./tmp-htaccess",include(__DIR__."/generators/htaccess.php"));
-	put("./tmp-htaccess","{$app->env->release_dir}/wordpress/.htaccess");
+	file_put_contents("./tmp-htaccess", include(__DIR__."/generators/htaccess.php"));
+	put("./tmp-htaccess", "{$app->env->release_dir}/wordpress/.htaccess");
 	unlink("./tmp-htaccess");
 });
 
