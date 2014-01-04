@@ -19,6 +19,7 @@ class Release
 		$install_dir = $env->release_dir."/".rtrim($install_location, "/");
 
 		// make sure install location exists
+		$cmd[] = "cd {$env->release_dir}";
 		$cmd[] = "mkdir -p $install_dir";
 		// download release
 		$cmd[] = "curl -s {$this->release_url()} > {$env->release_dir}/wordpress.tar";

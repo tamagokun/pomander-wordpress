@@ -120,7 +120,8 @@ desc("Create and deploy .htaccess for environments");
 task('htaccess','app', function($app) {
 	info("htaccess","creating .htaccess");
 	file_put_contents("./tmp-htaccess", include(__DIR__."/generators/htaccess.php"));
-	put("./tmp-htaccess", "{$app->env->release_dir}/wordpress/.htaccess");
+	$install_dir = $app->env->release_dir."/".rtrim("/", $app->env->wordpress["install_dir"]);
+	put("./tmp-htaccess", "{$install_dir}/.htaccess");
 	unlink("./tmp-htaccess");
 });
 
