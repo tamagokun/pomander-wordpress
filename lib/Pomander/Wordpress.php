@@ -5,7 +5,7 @@ namespace Pomander
 	{
 		public static function load($env)
 		{
-			if(!isset($env->wordpress)) $env->wordpress = self::defaults();
+			$env->wordpress = self::defaults();
 			require dirname(__DIR__).'/tasks.php';
 		}
 
@@ -24,9 +24,10 @@ namespace Pomander
 		protected static function defaults()
 		{
 			return array(
-				'version' => 'latest',
-				'db_prefix' => 'wp_',
-				'base_uri' => '',
+				'compat'      => false,
+				'version'     => 'latest',
+				'db_prefix'   => 'wp_',
+				'base_uri'    => '',
 				'install_dir' => 'wordpress'
 			);
 		}

@@ -4,7 +4,7 @@ group('deploy',function() {
 
 	desc("Deploy Wordpress in environment.");
 	task('wordpress','app', function($app) {
-		$release = new \Pomander\Wordpress\Release(isset($app->env->wordpress["version"]) ? $app->env->wordpress["version"] : "latest");
+		$release = new \Pomander\Wordpress\Release($app->env->wordpress["version"]);
 		info("fetch","Wordpress {$release->version}");
 
 		$cmd = $release->deploy($app->env);
@@ -42,17 +42,19 @@ after('deploy:finalize', function($app) {
 });
 
 task('compatibility_mode', function($app) {
-	if(!isset($app->env->wordpress["compat"]) || $app->env->wordpress["compat"] == false) return;
+	if(!$app->env->wordpress["compat"]) return;
+	if(empty($app->env->wordpress["install_dir"])) return;
 	info("Create Symlinks", "adding symlinks");
 	// Note: This removes the TwentyTen theme if it exists. User will need to include it in their repo if they rely on it.
+	$install_dir = $app->env->release_dir."/".rtrim("/", $app->env->wordpress["install_dir"]);
 	$uploads_dir = $app->env->releases === false ? "{$app->env->release_dir}/public/uploads" : "{$app->env->shared_dir}/uploads";
 	$cmd = array(
-		"rm -rf /{$app->env->release_dir}/wordpress/wp-content/themes",
-		"ln -s {$app->env->release_dir}/public/themes {$app->env->release_dir}/wordpress/wp-content/themes",
-		"rm -rf /{$app->env->release_dir}/wordpress/wp-content/plugins",
-		"ln -s {$app->env->release_dir}/vendor/plugins {$app->env->release_dir}/wordpress/wp-content/plugins",
+		"rm -rf {$install_dir}/wp-content/themes",
+		"ln -s {$app->env->release_dir}/public/themes {$install_dir}/wp-content/themes",
+		"rm -rf {$install_dir}/wp-content/plugins",
+		"ln -s {$app->env->release_dir}/vendor/plugins {$install_dir}/wp-content/plugins",
 		"ln -s {$app->env->release_dir}/vendor/plugins {$app->env->release_dir}/public/plugins",
-		"ln -s {$uploads_dir} {$app->env->release_dir}/wordpress/wp-content/uploads"
+		"ln -s {$uploads_dir} {$install_dir}/wp-content/uploads"
 	);
 	run($cmd);
 });
