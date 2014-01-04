@@ -130,12 +130,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tamagokun/pomander.git",
-                "reference": "620d55a6737c0fe52edefc1c4c0cb09097885d9b"
+                "reference": "60697c4bca6151683c69c0dc371fa65d77431efe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tamagokun/pomander/zipball/620d55a6737c0fe52edefc1c4c0cb09097885d9b",
-                "reference": "620d55a6737c0fe52edefc1c4c0cb09097885d9b",
+                "url": "https://api.github.com/repos/tamagokun/pomander/zipball/60697c4bca6151683c69c0dc371fa65d77431efe",
+                "reference": "60697c4bca6151683c69c0dc371fa65d77431efe",
                 "shasum": ""
             },
             "require": {
@@ -169,7 +169,7 @@
                 "git",
                 "svn"
             ],
-            "time": "2014-01-04 20:47:23"
+            "time": "2014-01-04 22:09:30"
         }
     ],
     "packages-dev": [
