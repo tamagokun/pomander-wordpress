@@ -24,11 +24,18 @@ namespace Pomander
 		protected static function defaults()
 		{
 			return array(
-				'compat'      => false,
-				'version'     => 'latest',
-				'db_prefix'   => 'wp_',
-				'base_uri'    => '',
-				'install_dir' => 'wordpress'
+				'cache'                => true,
+				'disallow_file_edit'   => false,
+				'disallow_file_mods'   => false,
+				'force_ssl_login'      => false,
+				'force_ssl_admin'      => false,
+				'debug'                => false,
+				'lang'                 => '',
+				'compat'               => false,
+				'version'              => 'latest',
+				'db_prefix'            => 'wp_',
+				'base_uri'             => '',
+				'install_dir'          => 'wordpress'
 			);
 		}
 	}
