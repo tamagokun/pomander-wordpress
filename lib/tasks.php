@@ -43,7 +43,7 @@ task('compatibility_mode', function($app) {
     if(empty($app->env->wordpress["install_dir"])) return;
     info("Create Symlinks", "adding symlinks");
     // Note: This removes the TwentyTen theme if it exists. User will need to include it in their repo if they rely on it.
-    $install_dir = $app->env->release_dir."/".rtrim("/", $app->env->wordpress["install_dir"]);
+    $install_dir = $app->env->release_dir."/".rtrim($app->env->wordpress["install_dir"], "/");
     $uploads_dir = $app->env->releases === false ? "{$app->env->release_dir}/public/uploads" : "{$app->env->shared_dir}/uploads";
     $cmd = array(
         "rm -rf {$install_dir}/wp-content/themes",
