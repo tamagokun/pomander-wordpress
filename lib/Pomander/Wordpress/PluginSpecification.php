@@ -50,6 +50,7 @@ class PluginSpecification
         return array(
             "rm -rf {$this->app->env->release_dir}/vendor/plugins/{$this->name}",
             "git clone $uri {$this->app->env->release_dir}/vendor/plugins/{$this->name}",
+            "cd {$this->app->env->release_dir}/vendor/plugins/{$this->name}",
             "git fetch origin && git reset --hard {$this->version}"
         );
     }
