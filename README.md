@@ -7,40 +7,42 @@ with the help of Pomander.
 Install
 -------
 
+```bash
+$ composer require pomander/wordpress:@stable
+```
+
 Requirements:
 
 - [pomander](https://github.com/tamagokun/pomander)
 
-Usage
------
-
-* `pom init` if no configuration found.
-* Include plugin in environment config `$env->load('Wordpress');`
-* `pom -T` to see the stuff.
-
 Getting Started
 ---------------
 
-```bash
-$ pom init
+### Installation
+
+Load the plugin in your environment configuration:
+
+```php
+<?php
+
+$env->load("Wordpress");
+
 ```
 
-Modify your development.yml or development.php
+That's it! Use `pom -T` to see the new tasks that you have.
+
+### Local Development
+
+Pomander-wordpress provides a simple task for pulling down and setting up Wordpress locally so that you don't need to manage any of that when you are developing Wordpress sites on your local machine:
 
 ```bash
 $ pom setup
 ```
 
-Done!
-
-Tasks
+Added Tasks
 -----
 
 ```
-db:backup           Perform a backup of environment's database for use in merging
-db:create           Create database in environment if it doesn't already exist
-db:full             Store a full database backup
-db:merge            Merge a backed up database into environment
 deploy:plugins      Deploy plugins in environment.
 deploy:wordpress    Deploy Wordpress in environment.
 htaccess            Create and deploy .htaccess for environments
@@ -141,13 +143,3 @@ You can chain commands to move uploads between environments:
 ```bash
 $ pom production uploads:pull staging uploads:push
 ```
-
-### Moving Databases
-
-Merge production into development:
-
-```bash
-$ pom production db:backup development db:merge
-```
-
-If your environment has `backup: true`, Pomander will create a backup of the db prior to any merge procedure.
