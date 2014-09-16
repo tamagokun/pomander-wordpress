@@ -22,7 +22,7 @@ class Release
         $cmd[] = "cd {$env->release_dir}";
         $cmd[] = "mkdir -p $install_dir";
         // download release
-        $cmd[] = "curl -s {$this->release_url()} > {$env->release_dir}/wordpress.tar";
+        $cmd[] = "curl -sL {$this->release_url()} > {$env->release_dir}/wordpress.tar";
         // extract
         if( $root_install ) {
             $cmd[] = "tar --strip-components=1 -xzf {$env->release_dir}/wordpress.tar";
