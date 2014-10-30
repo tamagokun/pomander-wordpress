@@ -11,11 +11,13 @@ $define = function($key, $options_key) use($app) {
 
 $cache = isset($app->env->wordpress["cache"])? $define('WP_CACHE', "cache") : "";
 $multisite = isset($app->env->wordpress["allow_multisite"])? $define('WP_ALLOW_MULTISITE', "allow_multisite") : "";
+$fs_method = isset($app->env->wordpress["fs_method"])? $define('FS_METHOD', "fs_method") : "";
 $debug = $define('WP_DEBUG', "debug");
 $edits = $define('DISALLOW_FILE_EDIT', "disallow_file_edit");
 $mods = $define('DISALLOW_FILE_MODS', "disallow_file_mods");
 $ssl_login = $define('FORCE_SSL_LOGIN', "force_ssl_login");
 $ssl_admin = $define('FORCE_SSL_ADMIN', "force_ssl_admin");
+$append = isset($app->env->wordpress["config_append"])? $app->env->wordpress["config_append"] : "";
 
 $siteurl = isset($app->env->wordpress["url"])? "'{$app->env->wordpress["url"]}'":"'http://'.\$_SERVER['SERVER_NAME']";
 if($app->env->wordpress["base_uri"]) $siteurl .= ".'{$app->env->wordpress["base_uri"]}'";
@@ -45,6 +47,8 @@ define('PLUGINDIR', WP_PLUGIN_DIR);
 {$mods}
 {$ssl_login}
 {$ssl_admin}
+{$fs_method}
+{$append}
 require_once(ABSPATH . 'wp-settings.php');
 ?>
 EOT;
